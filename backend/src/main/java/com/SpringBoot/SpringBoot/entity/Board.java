@@ -12,29 +12,27 @@ import org.springframework.data.annotation.CreatedDate;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
 @Getter
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
-@Table(name = "member")
-public class Member {
+@Table(name = "board")
+public class Board {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
-	private String username;
-	private String password;
-	private String email;
+	private Long id; 
+	
+	private String title;
+	private String content;
+	private Long author_id;
 	
 	@CreatedDate
 	private String created_at;
 	
 	private String updated_at;
-	
 }

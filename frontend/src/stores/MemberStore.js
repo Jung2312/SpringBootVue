@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 import api from '@/api' // Axios 인스턴스
 
-export const useMemberStore = defineStore('member', {
+export const useMemberListStore = defineStore('members', {
   state: () => ({
     members: [],
     isLoading: false,
@@ -24,12 +24,12 @@ export const useMemberStore = defineStore('member', {
       }
     },
 
-    async fetchMemberById(id) {
-      const cachedMember = this.members.find((member) => member.id === id)
+    async fetchMemberById(email) {
+      const cachedMember = this.members.find((members) => members.email === email)
       if (cachedMember) {
         this.selectedMember = cachedMember
       } else {
-        const response = await api.get(`/member?email=${email}`)
+        const response = await api.get(`/getMember?email=${email}`)
         this.selectedMember = response.data
       }
     },
