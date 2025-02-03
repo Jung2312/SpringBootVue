@@ -11,31 +11,15 @@
           <th>제목</th>
           <th>작성자</th>
           <th>작성일</th>
-          <th>조회수</th>
         </tr>
       </thead>
       <tbody>
         <!-- 예시 데이터 -->
-        <tr>
-          <td>1</td>
-          <td>게시판 제목 1</td>
-          <td>홍길동</td>
-          <td>2025-01-23</td>
-          <td>123</td>
-        </tr>
-        <tr>
-          <td>2</td>
-          <td>게시판 제목 2</td>
-          <td>김철수</td>
-          <td>2025-01-22</td>
-          <td>87</td>
-        </tr>
-        <tr>
-          <td>3</td>
-          <td>게시판 제목 3</td>
-          <td>이영희</td>
-          <td>2025-01-21</td>
-          <td>45</td>
+        <tr v-for="board in boards" :key="board.id">
+          <td>{{ board.id }}</td>
+          <td>{{ board.title }}</td>
+          <td>{{ board.email }}</td>
+          <td>{{ board.created_at }}</td>
         </tr>
         <!-- 실제 데이터는 v-for로 반복 렌더링 -->
       </tbody>
@@ -49,6 +33,29 @@
     </div>
   </div>
 </template>
+
+<script>
+import { useBoardStore } from '@/stores/BoardStore.js'
+import { computed, onMounted } from 'vue'
+
+export default {
+  setup() {
+    const boardStore = useBoardStore()
+
+    // 컴포넌트가 마운트될 때 API 호출
+    onMounted(() => {
+      boardStore.fetchBoards()
+    })
+
+    // 반응형으로 boards 가져오기
+    const boards = computed(() => boardStore.boards)
+
+    return {
+      boards, // 반응형 데이터
+    }
+  },
+}
+</script>
 
 <style scoped>
 /* 게시판 컨테이너 */

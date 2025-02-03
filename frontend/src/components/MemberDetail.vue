@@ -1,25 +1,20 @@
 <template>
   <h2>{{ member.email }}</h2>
+  <h2>{{ member.username }}</h2>
 </template>
 
 <script>
-import { useMemberStore } from '@/stores/MemberStore.js'
-import { computed, onMounted } from 'vue'
+import { useMemberStore } from '@/stores/SelectMemberStore.js'
+import { computed } from 'vue'
 
 export default {
   setup() {
-    const route = useRoute()
-
     const memberStore = useMemberStore()
-
-    // 유저 ID로 상세 정보 가져오기
-    onMounted(() => {
-      const memberEmail = route.params.email
-      memberStore.fetchMemberById(memberEmail)
-    })
+    // Pinia의 상태를 computed로 감싸서 반응형 유지
+    const member = computed(() => memberStore.member)
 
     return {
-      member: memberStore.selectedMember,
+      member,
     }
   },
 }

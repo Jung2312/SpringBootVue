@@ -1,23 +1,20 @@
 <template>
   <div class="management-container">
     <h1 class="management-title">회원 관리</h1>
-    <table class="management-table">
-      <thead>
-        <tr>
-          <th>아이디</th>
-          <th>이름</th>
-        </tr>
-      </thead>
-      <tbody>
-        <!-- 실제 데이터는 v-for로 반복 렌더링 -->
-        <tr v-for="member in members" :key="member.id">
-          <td>
-            <a :href="`/member?email=${member.email}`">{{ member.email }}</a>
-          </td>
-          <td>{{ member.username }}</td>
-        </tr>
-      </tbody>
-    </table>
+
+    <el-table
+      class="management-table"
+      v-if="memberList.length > 0"
+      border
+      :data="memberList"
+      @row-click="rowClick"
+    >
+      <el-table-column prop="email" label="아이디"></el-table-column>
+      <el-table-column prop="username" label="이름"></el-table-column>
+    </el-table>
+    <p v-else>데이터를 불러오는 중...</p>
+    <!-- 데이터 없을 때 메시지 표시 -->
+
     <div class="pagination">
       <button class="page-btn">이전</button>
       <button class="page-btn">1</button>
@@ -29,23 +26,36 @@
 </template>
 
 <script>
-import { useMemberStore } from '@/stores/MemberStore.js'
+import { useMemberListStore } from '@/stores/MemberStore.js'
+import { useMemberStore } from '@/stores/SelectMemberStore.js'
 import { computed, onMounted } from 'vue'
+import { useRouter } from 'vue-router'
 
 export default {
+  name: 'MemberList',
   setup() {
-    const memberStore = useMemberStore()
+    const membersStore = useMemberListStore()
+    const router = useRouter()
 
-    // 컴포넌트가 마운트될 때 API 호출
-    onMounted(() => {
-      memberStore.fetchMembers()
+    // Pinia의 상태를 computed로 감싸서 반응형 유지
+    const memberList = computed(() => membersStore.members)
+
+    onMounted(async () => {
+      await membersStore.fetchMembers()
     })
 
-    // 반응형으로 members 가져오기
-    const members = computed(() => memberStore.members)
+    const rowClick = (row) => {
+      console.log(row.email)
+      const MemberStore = useMemberStore()
+      MemberStore.selectMember = row.email
+      MemberStore.fetchMember()
+
+      router.push('/member')
+    }
 
     return {
-      members, // 반응형 데이터
+      memberList,
+      rowClick,
     }
   },
 }
