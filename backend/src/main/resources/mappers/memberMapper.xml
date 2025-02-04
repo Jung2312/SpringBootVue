@@ -3,13 +3,69 @@
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.SpringBoot.SpringBoot.dao.MemberDAO">
-    <select id="getMemberList" resultType="com.SpringBoot.SpringBoot.model.MemberVO">
-        SELECT * FROM member
-    </select>
-	<select id="getMember" parameterType="com.SpringBoot.SpringBoot.model.MemberVO" resultType="com.SpringBoot.SpringBoot.model.MemberVO">
-	    SELECT * FROM member WHERE email = #{email}
-	</select>
 	<insert id="registerMember" parameterType="com.SpringBoot.SpringBoot.model.MemberVO">
 		INSERT INTO member (username, password, email) VALUES(#{username},#{password},#{email})	
 	</insert>
+	
+    <select id="getMemberList" resultType="com.SpringBoot.SpringBoot.model.MemberVO">
+        SELECT * FROM member
+    </select>
+    
+	<resultMap id="MemberResultMap" type="com.SpringBoot.SpringBoot.model.MemberVO">
+	    <!-- 기본 회원 정보 -->
+	    <id property="id" column="id"/>
+	    <result property="username" column="username"/>
+	    <result property="password" column="password"/>
+	    <result property="email" column="email"/>
+	    <result property="created_at" column="created_at"/>
+	    <result property="profile_img" column="profile_img"/>
+	    <result property="phone" column="phone"/>
+	    <result property="birthday" column="birthday"/>
+	    <result property="job_title" column="job_title"/>
+	
+	    <!-- 경험 정보 리스트 -->
+	    <collection property="experiences" ofType="com.SpringBoot.SpringBoot.model.ExperienceVO">
+	        <result property="company" column="company"/>
+	        <result property="experience_year" column="experience_year"/>
+	    </collection>
+	
+	    <!-- 학력 정보 리스트 -->
+	    <collection property="educations" ofType="com.SpringBoot.SpringBoot.model.EducationVO">
+	        <result property="school" column="school"/>
+	        <result property="remark" column="remark"/>
+	        <result property="education_year" column="education_year"/>
+	    </collection>
+	</resultMap>
+	
+	<select id="getMember" parameterType="com.SpringBoot.SpringBoot.model.MemberVO" resultMap="MemberResultMap">
+	    SELECT 
+	        m.id, m.username, m.password, m.email, m.created_at, m.profile_img, 
+	        m.phone, m.birthday, m.job_title,
+	        e.company, e.experience_year,
+	        ed.school, ed.remark, ed.education_year
+	    FROM member m
+	    LEFT JOIN experience e ON e.member_id = m.id 
+	    LEFT JOIN education ed ON ed.member_id = m.id 
+	    WHERE m.email = #{email}
+	    ORDER BY ed.education_year ASC
+	    
+	</select>
+
+	<update id="updateMember" parameterType="com.SpringBoot.SpringBoot.model.MemberVO">
+		UPDATE MEMBER 
+		SET 
+			username = #{username}, 
+			email = #{email}, 
+			profile_img = #{profile_img}, 
+			phone = #{phone},
+			birthday = #{birthday},
+			job_title = #{job_title}
+		WHERE id = #{id}
+	</update>
+	
+	<delete id="deleteMember" parameterType="com.SpringBoot.SpringBoot.model.MemberVO">
+		DELETE FROM member
+		WHERE id = #{id}
+	</delete>
+
 </mapper>

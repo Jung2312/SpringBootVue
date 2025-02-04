@@ -10,9 +10,10 @@ import com.SpringBoot.SpringBoot.model.MemberVO;
 @Mapper
 @Repository
 public interface MemberDAO {
-	List<MemberVO> getMemberList() throws Exception;
-	
-	MemberVO getMember(MemberVO memberVo);
 	
 	void registerMember(MemberVO memberVo);
+	MemberVO getMember(MemberVO memberVo);
+	List<MemberVO> getMemberList() throws Exception;
+	void updateMember(MemberVO memberVo);
+	void deleteMember(MemberVO memberVO);
 }
