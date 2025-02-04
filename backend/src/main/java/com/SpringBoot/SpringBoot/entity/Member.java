@@ -35,6 +35,12 @@ public class Member {
 	@CreatedDate
 	private String created_at;
 	
-	private String updated_at;
+	private String profile_img;
+	
+	private String phone;
+	
+	private String birthday;
+	
+	private String job_title;
 	
 }

@@ -13,4 +13,6 @@ public interface BoardDAO {
 	List<BoardVO> getBoardList() throws Exception;
 	
 	BoardVO getBoard(BoardVO boardVO);
+	
+
 }

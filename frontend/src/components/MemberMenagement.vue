@@ -45,7 +45,6 @@ export default {
     })
 
     const rowClick = (row) => {
-      console.log(row.email)
       const MemberStore = useMemberStore()
       MemberStore.selectMember = row.email
       MemberStore.fetchMember()

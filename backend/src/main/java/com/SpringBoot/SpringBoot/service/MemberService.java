@@ -29,4 +29,12 @@ public class MemberService {
 //        // DB에 저장
 //		memberDAO.registerMember(memberVo);
 //	}
+    
+	public void updateMember(MemberVO memberVo) {
+		memberDAO.updateMember(memberVo);
+	}
+	
+	public void deleteMember(MemberVO memberVo) {
+		memberDAO.updateMember(memberVo);
+	}
 }
