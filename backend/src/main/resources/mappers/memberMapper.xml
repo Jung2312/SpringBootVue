@@ -51,15 +51,21 @@
 	    
 	</select>
 
-	<update id="updateMember" parameterType="com.SpringBoot.SpringBoot.model.MemberVO">
+	<update id="updateMember" parameterType="com.SpringBoot.SpringBoot.model.MemberUpdateVO">
 		UPDATE MEMBER 
 		SET 
 			username = #{username}, 
 			email = #{email}, 
-			profile_img = #{profile_img}, 
 			phone = #{phone},
 			birthday = #{birthday},
 			job_title = #{job_title}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="updateMemberProfileImage" parameterType="com.SpringBoot.SpringBoot.model.MemberUpdateVO">
+		UPDATE MEMBER 
+		SET
+			profile_img = #{profile_img}, 
 		WHERE id = #{id}
 	</update>
 	

@@ -11,6 +11,8 @@
     >
       <el-table-column prop="email" label="아이디"></el-table-column>
       <el-table-column prop="username" label="이름"></el-table-column>
+      <el-table-column prop="phone" label="전화번호"></el-table-column>
+      <el-table-column prop="job_title" label="직급"></el-table-column>
     </el-table>
     <p v-else>데이터를 불러오는 중...</p>
     <!-- 데이터 없을 때 메시지 표시 -->
@@ -39,7 +41,6 @@ export default {
 
     // Pinia의 상태를 computed로 감싸서 반응형 유지
     const memberList = computed(() => membersStore.members)
-
     onMounted(async () => {
       await membersStore.fetchMembers()
     })
@@ -103,33 +104,6 @@ export default {
   background-color: #0056b3;
 }
 
-/* 게시판 테이블 */
-.management-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-bottom: 20px;
-}
-
-.management-table th,
-.management-table td {
-  text-align: left;
-  padding: 10px;
-  border: 1px solid #ddd;
-}
-
-.management-table th {
-  background-color: #f1f1f1;
-  font-weight: bold;
-}
-
-.management-table tbody tr:nth-child(even) {
-  background-color: #f9f9f9;
-}
-
-.management-table tbody tr:hover {
-  background-color: #f1f1f1;
-}
-
 /* 페이지네이션 */
 .pagination {
   display: flex;
@@ -152,5 +126,9 @@ export default {
 .page-btn:hover {
   background-color: #007bff;
   color: #fff;
+}
+
+::v-deep(.el-table__cell) {
+  text-align: center !important;
 }
 </style>

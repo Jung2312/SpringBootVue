@@ -2,15 +2,20 @@ package com.SpringBoot.SpringBoot.controller;
 
 import java.util.HashMap;
 import java.util.List;
+
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.SpringBoot.SpringBoot.model.MemberUpdateVO;
 import com.SpringBoot.SpringBoot.model.MemberVO;
 import com.SpringBoot.SpringBoot.service.MemberService;
 import lombok.RequiredArgsConstructor;
@@ -58,12 +63,26 @@ public class MemberController {
 	    return ResponseEntity.ok(result);
 	}
 	
-	@PostMapping("/updateMember")
-	public ResponseEntity<String> registerMember(@Validated @RequestBody MemberVO memberVo) {
-		memberService.updateMember(memberVo);
-		return ResponseEntity.ok("회원 수정 완료");
+	@PutMapping("/updateMember")
+	public ResponseEntity<?> updateMember(@Validated @RequestBody MemberUpdateVO memberVo) {
+	    try {
+	        memberService.updateMember(memberVo);
+	        return ResponseEntity.ok("회원 수정 완료");
+	    } catch (Exception e) {
+	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("회원 수정 중 오류 발생: " + e.getMessage());
+	    }
 	}
 	
+	@PutMapping("/updateMember/image")
+	public ResponseEntity<?> updateMemberProfileImage(@Validated @RequestBody MemberUpdateVO memberVo) {
+		try {
+			memberService.updateMemberProfileImage(memberVo);
+			return ResponseEntity.ok("회원 이미지 수정 완료");
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("회원 이미지 수정 중 오류 발생: " + e.getMessage());
+		}
+	}
+
 	@DeleteMapping("/deleteMember")
 	public ResponseEntity<String> deleteMember(@RequestParam Long id) {
 		

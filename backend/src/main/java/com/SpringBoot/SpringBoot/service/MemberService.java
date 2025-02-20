@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.SpringBoot.SpringBoot.dao.MemberDAO;
+import com.SpringBoot.SpringBoot.model.MemberUpdateVO;
 import com.SpringBoot.SpringBoot.model.MemberVO;
 import lombok.RequiredArgsConstructor;
 
@@ -30,11 +31,15 @@ public class MemberService {
 //		memberDAO.registerMember(memberVo);
 //	}
     
-	public void updateMember(MemberVO memberVo) {
+	public void updateMember(MemberUpdateVO memberVo) {
 		memberDAO.updateMember(memberVo);
 	}
 	
+	public void updateMemberProfileImage(MemberUpdateVO memberVo) {
+		memberDAO.updateMemberProfileImage(memberVo);
+	}
+	
 	public void deleteMember(MemberVO memberVo) {
-		memberDAO.updateMember(memberVo);
+		memberDAO.deleteMember(memberVo);
 	}
 }

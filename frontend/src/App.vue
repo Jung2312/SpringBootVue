@@ -4,6 +4,8 @@
       <RouterLink to="/login">로그인</RouterLink>
       <!-- <RouterLink to="/register">회원가입</RouterLink> -->
       <RouterLink to="/memberMenagement">회원관리</RouterLink>
+      <RouterLink to="/memberMenagement">게시판</RouterLink>
+      <RouterLink to="/memberMenagement">공지사항</RouterLink>
     </nav>
     <RouterView />
   </v-app>
